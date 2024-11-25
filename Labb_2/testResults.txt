@@ -1,0 +1,20 @@
+List after inserting nodes:
+id: 3, sensorData: 0.900000
+id: 2, sensorData: 0.700000
+id: 1, sensorData: 0.500000
+
+Testing isMember function:
+Is node1 a member? 1
+Is node2 a member? 1
+Is node3 a member? 1
+
+List after removing node2:
+id: 3, sensorData: 0.900000
+id: 1, sensorData: 0.500000
+
+list for random sensor values
+id: 4, sensorData: 0.585009
+id: 3, sensorData: 0.808741
+id: 2, sensorData: 0.193304
+id: 1, sensorData: 0.563585
+id: 0, sensorData: 0.001251
