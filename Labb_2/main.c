@@ -13,23 +13,25 @@ void printList(struct LinkedList *first);
 void removeElem(struct LinkedList **first, struct LinkedList *el);
 struct LinkedList* readSensor(int id);
 struct LinkedList* sortByData(struct LinkedList **first);
+void freeList(struct LinkedList **first);
+
 
 
 int main(){
     struct LinkedList *list = NULL;
 
-    // Insert some elements into the list
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 10; i++) {
         struct LinkedList *newElem = readSensor(i);
         insertFirst(&list, newElem);
     }
 
-    // Print the original list
     printf("Original list:\n");
     printList(list);
 
-    // Sort the list by sensorData
+    printf("Sorted list:\n");
     printList(sortByData(&list));
+
+    freeList(&list);
 }
 
 void insertFirst(struct LinkedList **first, struct LinkedList *el){
@@ -94,27 +96,51 @@ struct LinkedList* readSensor(int id){
     return el;
 } 
 
-struct LinkedList* sortByData(struct LinkedList **first){
-
+struct LinkedList* sortByData(struct LinkedList **first) { //could do selection sort with max instead to reverse the order of the list?
     struct LinkedList* sorted = NULL;
 
-    while (*first != NULL)
-    {
+    while (*first != NULL) {
         struct LinkedList* curr = *first;
-        struct LinkedList* prev = NULL;
         struct LinkedList* min = *first;
+        struct LinkedList* prev = NULL;
+        struct LinkedList* minPrev = NULL;
 
-        while (curr->next != NULL){
-            if(curr->next->sensorData < min->sensorData){
-                min = curr->next;
+        // Find node with smallest sensorData
+        while (curr != NULL) {
+            if (curr->sensorData < min->sensorData) {
+                min = curr;
+                minPrev = prev; // Track previous node of min
             }
+            prev = curr;
             curr = curr->next;
         }
 
-        insertFirst(&sorted,min);
-        removeElem(first,min);
+        // Remove min from the original list
+        if (minPrev == NULL) { // min is first node
+            *first = min->next;
+        } else { 
+            minPrev->next = min->next;
+        }
+        min->next = NULL; 
+
+        insertFirst(&sorted, min);
     }
-    
+
     return sorted;
 }
+
+
+void freeList(struct LinkedList **first) {
+    struct LinkedList *current = *first;
+    struct LinkedList *nextNode;
+
+    while (current != NULL) {
+        nextNode = current->next; // Save the next node
+        free(current);            // Free the current node
+        current = nextNode;       // Move to the next node
+    }
+
+    *first = NULL; // Ensure the list pointer is set to NULL after freeing
+}
+
 
