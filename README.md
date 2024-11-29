@@ -1,9 +1,19 @@
-Datorsystemteknik 1, Högskolan i Halmstad.
-*För hardware labb behövs source files från blackboard för att kunna köras.*
-Software: 
-- Labb 1
-- Labb 2
+# Datorsystemteknik 1 - Högskolan i Halmstad  
 
-Hardware:
-- Labb 1
-- Labb 2
+Nedan finns mina och min labbpartners lösningar till labborationerna som gick HT2024 med Hazem Ali.
+
+---
+
+## Software  
+- **Labb 1**  
+- **Labb 2**  
+
+## Hardware  
+- **Labb 1**  
+- **Labb 2**  
+
+---
+
+**Obs!** För hardware-labbarna behövs source-filer från Blackboard för att kunna köras.  
+
+Lycka till! 
