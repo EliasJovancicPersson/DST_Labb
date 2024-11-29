@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 struct LinkedList {
     int id;
@@ -18,6 +19,7 @@ void freeList(struct LinkedList **first);
 
 
 int main(){
+    srand(time(0)); //seed till rand
     struct LinkedList *list = NULL;
 
     for (int i = 0; i < 10; i++) {
@@ -29,7 +31,8 @@ int main(){
     printList(list);
 
     printf("Sorted list:\n");
-    printList(sortByData(&list));
+    struct LinkedList *sorted = sortByData(&list);
+    printList(sorted);
 
     freeList(&list);
 }
@@ -101,29 +104,29 @@ struct LinkedList* sortByData(struct LinkedList **first) { //could do selection 
 
     while (*first != NULL) {
         struct LinkedList* curr = *first;
-        struct LinkedList* min = *first;
+        struct LinkedList* max = *first;
         struct LinkedList* prev = NULL;
-        struct LinkedList* minPrev = NULL;
+        struct LinkedList* maxPrev = NULL;
 
         // Find node with smallest sensorData
         while (curr != NULL) {
-            if (curr->sensorData < min->sensorData) {
-                min = curr;
-                minPrev = prev; // Track previous node of min
+            if (curr->sensorData > max->sensorData) {
+                max = curr;
+                maxPrev = prev; // Track previous node of min
             }
             prev = curr;
             curr = curr->next;
         }
 
         // Remove min from the original list
-        if (minPrev == NULL) { // min is first node
-            *first = min->next;
+        if (maxPrev == NULL) { // min is first node
+            *first = max->next;
         } else { 
-            minPrev->next = min->next;
+            maxPrev->next = max->next;
         }
-        min->next = NULL; 
+        max->next = NULL; 
 
-        insertFirst(&sorted, min);
+        insertFirst(&sorted, max);
     }
 
     return sorted;
@@ -135,12 +138,10 @@ void freeList(struct LinkedList **first) {
     struct LinkedList *nextNode;
 
     while (current != NULL) {
-        nextNode = current->next; // Save the next node
-        free(current);            // Free the current node
-        current = nextNode;       // Move to the next node
+        nextNode = current->next;
+        free(current);           
+        current = nextNode;       
     }
 
-    *first = NULL; // Ensure the list pointer is set to NULL after freeing
+    *first = NULL;
 }
-
-
